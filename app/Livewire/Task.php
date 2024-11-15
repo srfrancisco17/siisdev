@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Task as TaskModel;
 
 class Task extends Component
 {
-
     public $tasks;
     public TaskModel $task;
-
 
     protected $rules = ['task.text' => 'required|max:40'];
 

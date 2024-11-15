@@ -42,6 +42,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/triage', [TriageController::class, 'index'])->name('triage.index');
 
-Route::get('/counter', Counter::class);
+//Route::get('/counter', Counter::class);
 
 Auth::routes();

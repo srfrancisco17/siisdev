@@ -7,51 +7,58 @@ use App\Models\Task as TaskModel;
 
 class Task extends Component
 {
-    public $tasks;
-    public TaskModel $task;
+    public $tasks; // Lista de tareas
+    public $task = ['text' => '', 'done' => false]; // Datos del formulario
 
-    protected $rules = ['task.text' => 'required|max:40'];
-
-    public function mount(){
+    public function mount()
+    {
         $this->tasks = TaskModel::orderBy('id', 'desc')->get();
-        $this->task = new TaskModel();
-    }
-
-    public function updatedTaskText(){
-        $this->validate(['task.text' => 'max:40']);
     }
 
     public function edit(TaskModel $task)
     {
-        $this->task = $task;
+        $this->task = $task->toArray(); // Convierte el modelo a array para Livewire
     }
 
     public function done(TaskModel $task)
     {
-
         $task->update(['done' => !$task->done]);
-        $this->mount();
+        $this->tasks = TaskModel::orderBy('id', 'desc')->get();
     }
 
-    public function save(){
+    public function save()
+    {
+        // Valida los datos antes de guardar
+        $this->validate([
+            'task.text' => 'required|max:40',
+        ]);
 
-        $this->validate();
+        if (isset($this->task['id'])) {
+            // Actualiza la tarea existente
+            $existingTask = TaskModel::find($this->task['id']);
+            if ($existingTask) {
+                $existingTask->update($this->task);
+            }
+        } else {
+            // Crea una nueva tarea
+            TaskModel::create($this->task);
+        }
 
-        $this->task->save();
-        $this->mount();
+        // Reinicia el formulario y actualiza la lista de tareas
+        $this->task = ['text' => '', 'done' => false];
+        $this->tasks = TaskModel::orderBy('id', 'desc')->get();
 
-        $this->emitUp('taskSaved', 'Tarea guardada correctamente.');
+        $this->dispatch('taskSaved', 'Tarea guardada correctamente.');
     }
 
-    public function delete($id){
-
+    public function delete($id)
+    {
         $taskToDelete = TaskModel::find($id);
-    
-        if(!is_null($taskToDelete)){
-            $taskToDelete->delete();
 
-            $this->emitUp('taskSaved', 'Tarea eliminada correctamente.');
-            $this->mount();
+        if (!is_null($taskToDelete)) {
+            $taskToDelete->delete();
+            $this->tasks = TaskModel::orderBy('id', 'desc')->get();
+            $this->dispatch('taskSaved', 'Tarea eliminada correctamente.');
         }
     }
 
@@ -59,6 +66,5 @@ class Task extends Component
     {
         return view('livewire.task');
     }
-
-
 }
+

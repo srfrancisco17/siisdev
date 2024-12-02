@@ -37,8 +37,12 @@ Route::delete('/ideas/{idea}', [IdeaController::class, 'delete'])->name('idea.de
 Route::put('/ideas/{idea}', [IdeaController::class, 'synchronizeLikes'])->name('idea.like');
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 Route::get('/triage', [TriageController::class, 'index'])->name('triage.index');
+
+Route::get('/task', function () {
+    return view('task');
+});
 
 
 Auth::routes();

@@ -320,6 +320,7 @@ return [
             'url' => 'admin/blog',
             'can' => 'manage-blog',
         ],
+        /*
         [
             'text' => 'pages',
             'url' => 'admin/pages',
@@ -327,16 +328,22 @@ return [
             'label' => 4,
             'label_color' => 'success',
         ],
+        */
         ['header' => 'Modulos'],
         [
             'text' => 'Ideas',
             'url' => 'ideas/',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-lightbulb',
         ],
+        [
+            'text' => 'Tareas',
+            'url' => 'task/',
+            'icon' => 'fas fa-tasks',
+        ],        
         [
             'text' => 'Triage',
             'url' => 'triage',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-stethoscope',
         ],
         /*
         [

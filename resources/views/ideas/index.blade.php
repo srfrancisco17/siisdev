@@ -20,6 +20,7 @@
 
 <a href="{{route("idea.create")}}" class="btn btn-primary" role="button" aria-pressed="true">Agregar</a>
 
+
 <div class="list-group">
     @foreach ($ideas as $idea)
     <div class="list-group-item list-group-item-action flex-column align-items-start">
